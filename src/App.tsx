@@ -11,6 +11,8 @@ import { generateRandomHex, exportPalette } from "./utils/colorUtils"
 import type { ColorData } from "./types"
 import logo from "./assets/icon.png"
 
+import { Analytics } from "@vercel/analytics/react"
+
 const App: React.FC = () => {
   const [colors, setColors] = useState<ColorData[]>([])
   const [history, setHistory] = useState<ColorData[][]>([])
@@ -164,6 +166,7 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+      <Analytics />
       <Header 
         darkMode={darkMode} 
         onToggleDarkMode={() => setDarkMode(!darkMode)}
