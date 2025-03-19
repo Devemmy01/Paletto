@@ -58,7 +58,7 @@ Please ensure your PR follows our contribution guidelines.
 
 ## Contact
 
-Your Name - [@your_twitter](https://x.com/Devemmy25)
+Your Name - [@Devemmy25](https://x.com/Devemmy25)
 
 ---
 
