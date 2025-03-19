@@ -6,9 +6,8 @@ Paletto is a modern color palette generator and management tool that helps desig
 
 - 🎨 Color Palette Generation: Create harmonious color combinations with ease
 - 💾 Save and Organize: Store your favorite color palettes for future use
-- 🔍 Color Explorer: Browse through trending and popular color combinations
 - 📱 Responsive Design: Works seamlessly across all devices
-- 🔄 Export Options: Export palettes in various formats (HEX, RGB, CSS variables)
+- 🔄 Export Options: Export palettes in various formats
 
 ## Installation
 
@@ -32,25 +31,14 @@ npm run dev
 
 1. Visit the application in your browser at `http://localhost:3000`
 2. Create new palettes using the color picker or generator
-3. Save your favorite palettes to your collection
+3. Lock and copy your favorite colors
 4. Export palettes in your preferred format
-
-## Environment Variables
-
-Create a `.env` file in the root directory and add the following variables:
-
-```plaintext
-NEXT_PUBLIC_API_URL=your_api_url
-DATABASE_URL=your_database_url
-```
 
 ## Tech Stack
 
-- 🚀 Next.js
+- 🚀 ReactJs
 - 💅 Styled Components/Tailwind CSS
-- 🗃️ Database (PostgreSQL/MongoDB)
-- 🔐 Authentication
-- 📦 Other relevant packages
+- 🗃️ Typescript
 
 ## Contributing
 
@@ -70,10 +58,8 @@ Please ensure your PR follows our contribution guidelines.
 
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_twitter)
-
-Project Link: [https://github.com/yourusername/paletto](https://github.com/yourusername/paletto)
+Your Name - [@your_twitter](https://x.com/Devemmy25)
 
 ---
 
-Made with ❤️ by [Your Name/Team]
+Made with ❤️ by [Emmy]
