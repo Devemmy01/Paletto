@@ -10,9 +10,27 @@ declare let self: ServiceWorkerGlobalScope
 precacheAndRoute(self.__WB_MANIFEST)
 
 // Handle navigation requests with a Network-First strategy
-const handler = createHandlerBoundToURL('/index.html')
+const handler = createHandlerBoundToURL('index.html')
 const navigationRoute = new NavigationRoute(handler)
 registerRoute(navigationRoute)
+
+// Cache icons specifically
+registerRoute(
+  ({ request, url }) => 
+    request.destination === 'image' && url.pathname.includes('/icons/'),
+  new CacheFirst({
+    cacheName: 'app-icons',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200]
+      }),
+      new ExpirationPlugin({
+        maxEntries: 10,
+        maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days
+      })
+    ]
+  })
+)
 
 // Cache static assets
 registerRoute(
@@ -25,18 +43,15 @@ registerRoute(
     plugins: [
       new CacheableResponsePlugin({
         statuses: [0, 200]
-      }),
-      new ExpirationPlugin({
-        maxEntries: 50,
-        maxAgeSeconds: 60 * 60 * 24 * 2 // 2 days
       })
     ]
   })
 )
 
-// Cache images
+// Cache other images
 registerRoute(
-  ({ request }) => request.destination === 'image',
+  ({ request, url }) => 
+    request.destination === 'image' && !url.pathname.includes('/icons/'),
   new CacheFirst({
     cacheName: 'images',
     plugins: [
@@ -51,46 +66,26 @@ registerRoute(
   })
 )
 
-// Cache Google Fonts
-registerRoute(
-  ({ url }) => url.origin === 'https://fonts.googleapis.com',
-  new NetworkFirst({
-    cacheName: 'google-fonts-stylesheets',
-    plugins: [
-      new CacheableResponsePlugin({
-        statuses: [0, 200]
-      }),
-      new ExpirationPlugin({
-        maxEntries: 10,
-        maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
-      })
-    ]
-  })
-)
-
-registerRoute(
-  ({ url }) => url.origin === 'https://fonts.gstatic.com',
-  new CacheFirst({
-    cacheName: 'google-fonts-webfonts',
-    plugins: [
-      new CacheableResponsePlugin({
-        statuses: [0, 200]
-      }),
-      new ExpirationPlugin({
-        maxEntries: 30,
-        maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
-      })
-    ]
-  })
-)
-
 // Handle offline fallback
 self.addEventListener('install', (event) => {
-  const offlineFallbackPage = '/index.html'
   event.waitUntil(
-    caches.open('offline-cache').then((cache) => {
-      return cache.add(offlineFallbackPage)
-    })
+    Promise.all([
+      caches.open('offline-cache').then((cache) => {
+        return cache.add('/index.html')
+      }),
+      caches.open('app-icons').then((cache) => {
+        return cache.addAll([
+          '/icons/favicon-96x96.png',
+          '/icons/icon-192x192.png',
+          '/icons/web-app-manifest-192x192.png',
+          '/icons/icon-512x512.png',
+          '/icons/web-app-manifest-512x512.png',
+          '/icons/apple-touch-icon.png',
+          '/icons/favicon.ico',
+          '/icons/favicon.svg'
+        ])
+      })
+    ])
   )
 })
 
@@ -103,7 +98,7 @@ self.addEventListener('activate', (event) => {
       caches.keys().then((cacheNames) => {
         return Promise.all(
           cacheNames.map((cacheName) => {
-            if (cacheName !== 'offline-cache') {
+            if (!['offline-cache', 'app-icons'].includes(cacheName)) {
               return caches.delete(cacheName)
             }
           })
