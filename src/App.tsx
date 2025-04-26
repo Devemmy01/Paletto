@@ -446,6 +446,22 @@ const App: React.FC = () => {
               </p>
             </div>
 
+            <div className="mt-4">
+              <a 
+                href="https://www.producthunt.com/posts/paletto-2?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-paletto&#0045;2" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <img 
+                  src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=958116&theme=light&t=1745702463554" 
+                  alt="Paletto - A modern color palette gen for designers and developers | Product Hunt" 
+                  style={{ width: '250px', height: '54px' }} 
+                  width="250" 
+                  height="54" 
+                />
+              </a>
+            </div>
+
             </div>
 
           <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 flex flex-col md:flex-row justify-between items-center">
